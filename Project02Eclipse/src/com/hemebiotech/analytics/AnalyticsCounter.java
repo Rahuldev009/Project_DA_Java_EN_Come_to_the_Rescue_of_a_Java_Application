@@ -1,43 +1,83 @@
 package com.hemebiotech.analytics;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+
+
 
 public class AnalyticsCounter {
-	private static int headacheCount = 0;	// initialize to 0
-	private static int rashCount = 0;		// initialize to 0
-	private static int pupilCount = 0;		// initialize to 0
-	
-	public static void main(String args[]) throws Exception {
-		// first get input
-		BufferedReader reader = new BufferedReader (new FileReader("symptoms.txt"));
-		String line = reader.readLine();
 
-		int i = 0;	// set i to 0
-		int headCount = 0;	// counts headaches
-		while (line != null) {
-			i++;	// increment i
-			System.out.println("symptom from file: " + line);
-			if (line.equals("headache")) {
-				headCount++;
-				System.out.println("number of headaches: " + headCount);
-			}
-			else if (line.equals("rush")) {
-				rashCount++;
-			}
-			else if (line.contains("pupils")) {
-				pupilCount++;
+
+	/***
+	 *
+	 * @param result It contains the input from the file
+	 * @return list of sorted symptoms with their count
+	 * @throws IOException
+	 */
+	ArrayList countSymptomsAlphabetically(ArrayList result) throws IOException {
+
+		int countOccurrence = 0;
+
+		ArrayList <String> sortedSymptoms = new ArrayList<>();
+
+		HashMap<String,Integer> symptomsWithOccurrence = new HashMap<>();
+
+		for (int i=0;i<result.size();i++){
+			if (symptomsWithOccurrence.containsKey(result.get(i).toString())){
+				countOccurrence = symptomsWithOccurrence.get(result.get(i).toString())+1;
+				symptomsWithOccurrence.replace(result.get(i).toString(),countOccurrence);
 			}
 
-			line = reader.readLine();	// get another symptom
+			else {
+				symptomsWithOccurrence.put(result.get(i).toString(),1);
+			}
+
 		}
-		
-		// next generate output
-		FileWriter writer = new FileWriter ("result.out");
-		writer.write("headache: " + headacheCount + "\n");
-		writer.write("rash: " + rashCount + "\n");
-		writer.write("dialated pupils: " + pupilCount + "\n");
-		writer.close();
+
+		symptomsWithOccurrence.forEach((k,v)->sortedSymptoms.add(k +" "+ ":" + " "+v));
+		Collections.sort(sortedSymptoms);
+		return sortedSymptoms;
+
 	}
+
+	/***
+	 *
+	 * @param list contain the sorted symptoms in Arraylist
+	 * @throws IOException
+	 */
+	void writtenOutput(ArrayList list) throws IOException {
+
+		FileWriter writer = new FileWriter ("result.out");
+		for (int i = 0; i <list.size() ; i++) {
+			writer.write(list.get(i)+ "\n");
+		}
+		writer.close();
+
+	}
+
+
+	public static void main(String args[]) throws IOException {
+
+		ArrayList <String> outputList;
+
+		ReadSymptomDataFromFile readSymptomDataFromFile = new ReadSymptomDataFromFile("/Users/rahuljajoria/" +
+				"Desktop/GitProjects/"
+				+ "GitHub/deliverable1/Project_DA_Java_EN_Come_to_the_Rescue_of_a_Java_Application/Project02Eclipse" +
+				"/symptoms.txt");
+
+		outputList = (ArrayList<String>) readSymptomDataFromFile.getSymptoms();
+
+		AnalyticsCounter analyticsCounter= new AnalyticsCounter();
+
+		outputList = analyticsCounter.countSymptomsAlphabetically(outputList);
+
+		analyticsCounter.writtenOutput(outputList);
+
+
+	}
+
+
 }
+
