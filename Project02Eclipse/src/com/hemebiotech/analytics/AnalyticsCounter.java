@@ -9,6 +9,7 @@ import java.util.HashMap;
 /**
  * Store each symptom name and its count
  * Alphabetically sort it and write them to an output file
+ * Contains
  *
  */
 public class AnalyticsCounter {
@@ -18,10 +19,15 @@ public class AnalyticsCounter {
 	 AnalyticsCounter (){
 		 symptomsWithOccurrence = new HashMap<>();
 	 }
+
 	/***
 	 *
 	 * @param inputFromFile It contains the input from the file
 	 * @throws IOException
+	 * The method takes the ArrayList as an input which will have all the contents of file.
+	 * The Contents then parsed and sorted according to requirement and again copied
+	 * to an ArrayList, to be written to an output file.
+	 *
 	 */
 	void countSymptomsAlphabetically(ArrayList inputFromFile) throws IOException {
 
@@ -53,6 +59,7 @@ public class AnalyticsCounter {
 	 *
 	 * @param list contain the sorted symptoms in Arraylist
 	 * @throws IOException
+	 * The method takes an ArrayList and writes the contents to a file.
 	 */
 	void writtenOutput(ArrayList list) throws IOException {
 
