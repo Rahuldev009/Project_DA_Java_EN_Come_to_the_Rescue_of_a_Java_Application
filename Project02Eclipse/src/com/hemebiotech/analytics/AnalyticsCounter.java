@@ -6,39 +6,46 @@ import java.util.Collections;
 import java.util.HashMap;
 
 
-
+/**
+ * Store each symptom name and its count
+ * Alphabetically sort it and write them to an output file
+ *
+ */
 public class AnalyticsCounter {
 
+	 private HashMap<String,Integer> symptomsWithOccurrence ;
 
+	 AnalyticsCounter (){
+		 symptomsWithOccurrence = new HashMap<>();
+	 }
 	/***
 	 *
-	 * @param result It contains the input from the file
-	 * @return list of sorted symptoms with their count
+	 * @param inputFromFile It contains the input from the file
 	 * @throws IOException
 	 */
-	ArrayList countSymptomsAlphabetically(ArrayList result) throws IOException {
+	void countSymptomsAlphabetically(ArrayList inputFromFile) throws IOException {
 
 		int countOccurrence = 0;
 
 		ArrayList <String> sortedSymptoms = new ArrayList<>();
 
-		HashMap<String,Integer> symptomsWithOccurrence = new HashMap<>();
 
-		for (int i=0;i<result.size();i++){
-			if (symptomsWithOccurrence.containsKey(result.get(i).toString())){
-				countOccurrence = symptomsWithOccurrence.get(result.get(i).toString())+1;
-				symptomsWithOccurrence.replace(result.get(i).toString(),countOccurrence);
+
+		for (int symptoms = 0; symptoms < inputFromFile.size() ;symptoms++){
+			if (symptomsWithOccurrence.containsKey(inputFromFile.get(symptoms).toString())){
+				countOccurrence = symptomsWithOccurrence.get(inputFromFile.get(symptoms).toString()) + 1;
+				symptomsWithOccurrence.replace(inputFromFile.get(symptoms).toString(),countOccurrence);
 			}
 
 			else {
-				symptomsWithOccurrence.put(result.get(i).toString(),1);
+				symptomsWithOccurrence.put(inputFromFile.get(symptoms).toString(),1);
 			}
 
 		}
 
 		symptomsWithOccurrence.forEach((k,v)->sortedSymptoms.add(k +" "+ ":" + " "+v));
 		Collections.sort(sortedSymptoms);
-		return sortedSymptoms;
+		writtenOutput(sortedSymptoms);
 
 	}
 
@@ -50,30 +57,32 @@ public class AnalyticsCounter {
 	void writtenOutput(ArrayList list) throws IOException {
 
 		FileWriter writer = new FileWriter ("result.out");
-		for (int i = 0; i <list.size() ; i++) {
-			writer.write(list.get(i)+ "\n");
+		for (int symptoms = 0; symptoms < list.size() ;symptoms++) {
+			writer.write(list.get(symptoms)+ "\n");
 		}
 		writer.close();
 
 	}
 
-
+	/**
+	 *
+	 * @param args
+	 * @throws IOException
+	 */
 	public static void main(String args[]) throws IOException {
 
 		ArrayList <String> outputList;
 
-		ReadSymptomDataFromFile readSymptomDataFromFile = new ReadSymptomDataFromFile("/Users/rahuljajoria/" +
-				"Desktop/GitProjects/"
-				+ "GitHub/deliverable1/Project_DA_Java_EN_Come_to_the_Rescue_of_a_Java_Application/Project02Eclipse" +
+		ReadSymptomDataFromFile readSymptomDataFromFile = new ReadSymptomDataFromFile(
+				"../Project_DA_Java_EN_Come_to_the_Rescue_of_a_Java_Application/Project02Eclipse" +
 				"/symptoms.txt");
 
 		outputList = (ArrayList<String>) readSymptomDataFromFile.getSymptoms();
 
 		AnalyticsCounter analyticsCounter= new AnalyticsCounter();
 
-		outputList = analyticsCounter.countSymptomsAlphabetically(outputList);
+		analyticsCounter.countSymptomsAlphabetically(outputList);
 
-		analyticsCounter.writtenOutput(outputList);
 
 
 	}

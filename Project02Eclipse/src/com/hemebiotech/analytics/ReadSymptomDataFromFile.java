@@ -8,6 +8,8 @@ import java.util.List;
 
 /**
  * Simple brute force implementation
+ * Read the file
+ * Store the contents of the file in a List
  *
  */
 public class ReadSymptomDataFromFile implements ISymptomReader {
@@ -24,8 +26,9 @@ public class ReadSymptomDataFromFile implements ISymptomReader {
 	}
 
 	/***
-	 *
-	 * @return result in List
+	 * Copy whole content of the Input file in Buffered Reader
+	 * Copy Contents of Buffered reader line by line into ArrayList
+	 * @return result in the form List
 	 */
 	@Override
 	public List<String> getSymptoms() {
