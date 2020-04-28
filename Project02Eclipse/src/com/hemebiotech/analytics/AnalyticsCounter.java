@@ -40,36 +40,35 @@ public class AnalyticsCounter {
 				"../Project_DA_Java_EN_Come_to_the_Rescue_of_a_Java_Application/Project02Eclipse" +
 						"/symptoms.txt");
 		fileAsArrayList = (ArrayList<String>) readSymptomDataFromFile.getSymptoms();
-		countSymptomsAlphabetically(fileAsArrayList);
+
 
 	}
 
 
 	/***
 	 *
-	 * @param inputFromFile It contains the input from the file
 	 * @throws IOException
 	 * The method takes the ArrayList as an input which will have all the contents of file.
 	 * The Contents then parsed and stored in an ArrayList.
 	 *
 	 */
-	void countSymptomsAlphabetically(ArrayList inputFromFile) throws IOException {
+	void countSymptoms() throws IOException {
 
 		int countOccurrence = 0;
 
-		for (int symptoms = 0; symptoms < inputFromFile.size() ;symptoms++){
-			if (symptomsWithOccurrence.containsKey(inputFromFile.get(symptoms).toString())){
-				countOccurrence = symptomsWithOccurrence.get(inputFromFile.get(symptoms).toString()) + 1;
-				symptomsWithOccurrence.replace(inputFromFile.get(symptoms).toString(),countOccurrence);
+		for (int symptoms = 0; symptoms < fileAsArrayList.size() ;symptoms++){
+			if (symptomsWithOccurrence.containsKey(fileAsArrayList.get(symptoms).toString())){
+				countOccurrence = symptomsWithOccurrence.get(fileAsArrayList.get(symptoms).toString()) + 1;
+				symptomsWithOccurrence.replace(fileAsArrayList.get(symptoms).toString(),countOccurrence);
 			}
 
 			else {
-				symptomsWithOccurrence.put(inputFromFile.get(symptoms).toString(),1);
+				symptomsWithOccurrence.put(fileAsArrayList.get(symptoms).toString(),1);
 			}
 
 		}
 		symptomsWithOccurrence.forEach((k,v)->sortedSymptoms.add(k +" "+ ":" + " "+v));
-		sortingList();
+
 
 	}
 
@@ -82,7 +81,7 @@ public class AnalyticsCounter {
 	void sortingList() throws IOException {
 
 		Collections.sort(sortedSymptoms);
-		writtenOutput();
+
 
 	}
 
@@ -114,6 +113,11 @@ public class AnalyticsCounter {
 		AnalyticsCounter analyticsCounter= new AnalyticsCounter();
 
 		analyticsCounter.readSymptomsFile();
+		analyticsCounter.countSymptoms();
+		analyticsCounter.sortingList();
+		analyticsCounter.writtenOutput();
+
+
 
 	}
 
